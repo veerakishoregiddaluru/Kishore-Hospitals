@@ -7,9 +7,9 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { token, setToken, userData } = useContext(AppContext);
   const logout = () => {
+    navigate("/");
     setToken(false);
     localStorage.removeItem("token");
-    navigate("/");
   };
 
   return (
