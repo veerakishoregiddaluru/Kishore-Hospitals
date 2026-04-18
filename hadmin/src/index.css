@@ -22,3 +22,61 @@
 .animate-shine {
   animation: shine 2.5s linear infinite;
 }
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradientMove 5s ease infinite;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🌟 GLOBAL FONT SETTINGS */
+body {
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.2px;
+  background-color: #f9fafb;
+}
+
+/* 💎 PREMIUM TEXT STYLES */
+.text-primary-gradient {
+  @apply bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent;
+}
+
+.heading-xl {
+  @apply text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight;
+}
+
+.heading-lg {
+  @apply text-2xl font-semibold text-gray-900;
+}
+
+.text-muted {
+  @apply text-gray-500;
+}
+
+.text-soft {
+  @apply text-gray-600;
+}
+
+/* ✨ INPUT STYLE (REUSABLE) */
+.input-premium {
+  @apply w-full px-4 py-2 rounded-xl border bg-gray-50 outline-none transition;
+}
+
+.input-premium:focus {
+  @apply ring-2 ring-primary bg-white;
+}

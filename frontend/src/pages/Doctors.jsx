@@ -8,10 +8,9 @@ const Doctors = () => {
   const [showFilter, setShowFilter] = useState(false);
   const { doctors } = useContext(AppContext);
   const [filterDoc, setFilterDoc] = useState([]);
+
   const applyFilter = () => {
     if (speciality) {
-      console.log(filterDoc);
-
       setFilterDoc(doctors.filter((doc) => doc.speciality === speciality));
     } else {
       setFilterDoc(doctors);
@@ -23,98 +22,99 @@ const Doctors = () => {
   }, [doctors, speciality]);
 
   return (
-    <div>
-      <p className="text-gray-600">Browse through the doctors specialist.</p>
-      <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 px-4 md:px-10 py-8">
+      {/* HEADER */}
+      <p className="text-gray-600 text-lg md:text-xl font-medium">
+        Browse through the doctors specialist.
+      </p>
+
+      <div className="flex flex-col lg:flex-row items-start gap-8 mt-6">
+        {/* FILTER BUTTON (MOBILE) */}
         <button
-          className={`py-1 px-3 border rounded text-sm transition-all md:hidden ${showFilter ? "bg-primary text-white" : ""}`}
+          className={`py-2 px-4 rounded-full text-sm font-medium shadow-sm border transition-all md:hidden ${
+            showFilter ? "bg-primary text-white" : "bg-white text-gray-700"
+          }`}
           onClick={() => setShowFilter((prev) => !prev)}
         >
           Filters
         </button>
+
+        {/* FILTER SIDEBAR */}
         <div
-          className={` flex-col gap-4 text-sm text-gray-600 ${showFilter ? "flex" : "hidden sm:flex"} `}
+          className={`${
+            showFilter ? "flex" : "hidden"
+          } sm:flex flex-col gap-4 text-sm w-full lg:w-64 
+  bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 
+  p-5 rounded-3xl shadow-xl`}
         >
-          <p
-            onClick={() =>
-              speciality === "Gynecologist"
-                ? navigate("/doctors")
-                : navigate("/doctors/Gynecologist")
-            }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer  ${speciality === "Gynecologist" ? "bg-indigo-500 text-black" : ""}`}
-          >
-            Gynecologist
-          </p>
-          <p
-            onClick={() =>
-              speciality === "General physician"
-                ? navigate("/doctors")
-                : navigate("/doctors/General physician")
-            }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "General physician" ? "bg-indigo-500 text-black" : ""}`}
-          >
-            General physician
-          </p>
-          <p
-            onClick={() =>
-              speciality === "Dermatologist"
-                ? navigate("/doctors")
-                : navigate("/doctors/Dermatologist")
-            }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-500 text-black" : ""}`}
-          >
-            Dermatologist
-          </p>
-          <p
-            onClick={() =>
-              speciality === "Pediatricians"
-                ? navigate("/doctors")
-                : navigate("/doctors/Pediatricians")
-            }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-500 text-black" : ""}`}
-          >
-            Pediatricians
-          </p>
-          <p
-            onClick={() =>
-              speciality === "Neurologist"
-                ? navigate("/doctors")
-                : navigate("/doctors/Neurologist")
-            }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-500 text-black" : ""}`}
-          >
-            Neurologist
-          </p>
-          <p
-            onClick={() =>
-              speciality === "Gastroenterologist"
-                ? navigate("/doctors")
-                : navigate("/doctors/Gastroenterologist")
-            }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-500 text-black" : ""}`}
-          >
-            Gastroenterologist
-          </p>
+          {[
+            { name: "Gynecologist", color: "from-pink-500 to-rose-500" },
+            { name: "General physician", color: "from-blue-500 to-cyan-500" },
+            { name: "Dermatologist", color: "from-yellow-400 to-orange-500" },
+            { name: "Pediatricians", color: "from-green-400 to-emerald-500" },
+            { name: "Neurologist", color: "from-purple-500 to-indigo-500" },
+            { name: "Gastroenterologist", color: "from-red-400 to-pink-500" },
+          ].map((specObj, i) => (
+            <p
+              key={i}
+              onClick={() =>
+                speciality === specObj.name
+                  ? navigate("/doctors")
+                  : navigate(`/doctors/${specObj.name}`)
+              }
+              className={`px-5 py-3 rounded-full text-center font-semibold cursor-pointer
+      transition-all duration-300 transform
+      
+      ${
+        speciality === specObj.name
+          ? `bg-gradient-to-r ${specObj.color} text-white shadow-lg scale-105`
+          : `bg-white text-gray-700 hover:bg-gradient-to-r hover:${specObj.color} hover:text-white hover:shadow-md hover:scale-105`
+      }`}
+            >
+              {specObj.name}
+            </p>
+          ))}
         </div>
-        <div className="w-full grid grid-cols-auto gap-4 gap-y-6">
+        {/* DOCTOR GRID */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {filterDoc.map((item, index) => (
             <div
               onClick={() => navigate(`/appointment/${item._id}`)}
-              className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
               key={index}
+              className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer hover:-translate-y-2"
             >
-              <img className="bg-blue-50 " src={item.image} alt="" />
+              {/* IMAGE */}
+              <div className="overflow-hidden">
+                <img
+                  className="w-full h-48 object-cover hover:bg-primary group-hover:scale-105 transition duration-500"
+                  src={item.image}
+                  alt=""
+                />
+              </div>
+
+              {/* CONTENT */}
               <div className="p-4">
+                {/* STATUS */}
                 <div
-                  className={`flex items-center gap-2 text-sm text-center ${item.available ? "text-green-500" : "text-red-500"} `}
+                  className={`flex items-center gap-2 text-xs font-medium ${
+                    item.available ? "text-green-600" : "text-red-500"
+                  }`}
                 >
-                  <p
-                    className={`w-2 h-2 ${item.available ? " bg-green-500" : "bg-red-500"} rounded-full`}
-                  ></p>
-                  <p>{item.available ? "Available" : "Not Available"}</p>
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      item.available ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  ></span>
+                  {item.available ? "Available" : "Not Available"}
                 </div>
-                <p>{item.name}</p>
-                <p>{item.speciality}</p>
+
+                {/* NAME */}
+                <p className="mt-2 text-lg font-semibold text-gray-800 group-hover:text-primary transition">
+                  {item.name}
+                </p>
+
+                {/* SPECIALITY */}
+                <p className="text-sm text-gray-500">{item.speciality}</p>
               </div>
             </div>
           ))}

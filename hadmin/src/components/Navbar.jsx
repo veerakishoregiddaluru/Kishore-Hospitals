@@ -34,7 +34,7 @@ const Navbar = () => {
 
         <p
           className="relative px-3 py-1 rounded-full text-sm font-medium 
-bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
+bg-gradient-to-r from-green-500 via-green-500 to-green-500 
 text-white shadow-md overflow-hidden"
         >
           <span className="relative z-10">

@@ -13,7 +13,9 @@ const DoctorAppointments = () => {
     completeAppointment,
     cancelAppointment,
   } = useContext(DoctorContext);
-  const { calculateAge, slotDateFormat, currency } = useContext(AppContext);
+
+  const { calculateAge, currency } = useContext(AppContext);
+
   useEffect(() => {
     if (dToken) {
       getAppointments();
@@ -21,77 +23,117 @@ const DoctorAppointments = () => {
   }, [dToken]);
 
   return (
-    <div className="w-full max-w-6xl m-5">
-      <p className="mb-3 text-lg font-medium">All Appointments</p>
-      <div className="bg-white rounded text-sm max-h-[80vh] min-h-[50vh] overflow-y-scroll">
-        <div className="max-sm:hidden grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] gap-1 py-3 px-6 border-b">
-          <p>#</p>
-          <p>Patient</p>
-          <p>Payment</p>
-          <p>Age</p>
-          <p>Date & Time</p>
-          <p>Fees</p>
-          <p>Action</p>
-        </div>
-        <div>
-          {appointments.map((item, index) => (
-            <div
-              className="flex flex-wrap justify-between max-sm:gap-5 max-sm:text-base sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] gap-1 items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50"
-              key={index}
-            >
-              <p className="max-sm:hidden">{index + 1}</p>
-              <div className="flex items-center gap-2">
-                <img
-                  className="w-8 rounded-full"
-                  src={item.userData.image}
-                  alt=""
-                />
-                <p>{item.userData.name}</p>
-              </div>
-              <div>
-                <p className="text-xs inline border bg-primary text-white border-primary px-2 rounded-full">
-                  {item.payment ? "Online" : "CASH"}
-                </p>
-              </div>
-              <p className="max-sm:hidden">{calculateAge(item.userData.dob) || 0}</p>
-              <p>
-                {new Date(item.slotDate).toLocaleDateString("en-GB", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}{" "}
-                , {item.slotTime}
-              </p>
-              <p>
-                {currency}
-                {item.amount}
-              </p>
-              {item.cancelled ? (
-                <p className="flex items-center justify-center text-1.5xl  border bg-red-600 text-white border-white px-2 py-2 rounded-full">
-                  Cancelled
-                </p>
-              ) : item.isCompleted ? (
-                <p className="flex items-center justify-center text-1.5xl  border bg-green-600 text-white border-white px-2 py-2 rounded-full">
-                  Completed
-                </p>
-              ) : (
-                <div className="flex gap-2">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50 p-4 md:p-8">
+      {/* CONTAINER */}
+      <div className="w-full max-w-7xl mx-auto">
+        {/* HEADER */}
+        <p className="mb-6 text-2xl font-semibold text-gray-800">
+          All Appointments
+        </p>
+
+        {/* TABLE BOX */}
+        <div className="bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden">
+          {/* TABLE HEADER */}
+          <div className="hidden sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] gap-2 px-6 py-4 bg-gradient-to-r from-primary to-indigo-500 text-white text-sm font-semibold">
+            <p>#</p>
+            <p>Patient</p>
+            <p>Payment</p>
+            <p>Age</p>
+            <p>Date & Time</p>
+            <p>Fees</p>
+            <p>Action</p>
+          </div>
+
+          {/* LIST */}
+          <div className="max-h-[75vh] overflow-y-auto divide-y">
+            {appointments.map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-col sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] gap-3 px-6 py-4 items-center hover:bg-gray-50 transition-all duration-300"
+              >
+                {/* INDEX */}
+                <p className="hidden sm:block text-gray-400">{index + 1}</p>
+
+                {/* PATIENT */}
+                <div className="flex items-center gap-3 w-full">
                   <img
-                    onClick={() => cancelAppointment(item._id)}
-                    className="w-10 cursor-pointer hover:bg-red-600 hover:rounded-full"
-                    src={assets.cancel_icon}
+                    className="w-10 h-10 rounded-full object-cover border"
+                    src={item.userData.image}
                     alt=""
                   />
-                  <img
-                    onClick={() => completeAppointment(item._id)}
-                    className="w-10 cursor-pointer  hover:bg-green-600 hover:rounded-full"
-                    src={assets.tick_icon}
-                    alt=""
-                  />
+                  <p className="font-medium text-gray-800">
+                    {item.userData.name}
+                  </p>
                 </div>
-              )}
-            </div>
-          ))}
+
+                {/* PAYMENT */}
+                <div>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      item.payment
+                        ? "bg-green-100 text-green-600"
+                        : "bg-yellow-100 text-yellow-600"
+                    }`}
+                  >
+                    {item.payment ? "Online" : "Cash"}
+                  </span>
+                </div>
+
+                {/* AGE */}
+                <p className="hidden sm:block text-gray-500">
+                  {calculateAge(item.userData.dob) || 0}
+                </p>
+
+                {/* DATE */}
+                <p className="text-gray-600 text-sm text-center sm:text-left">
+                  {new Date(item.slotDate).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                  <br className="sm:hidden" />
+                  <span className="text-gray-400"> {item.slotTime}</span>
+                </p>
+
+                {/* FEES */}
+                <p className="font-semibold text-gray-700">
+                  {currency}
+                  {item.amount}
+                </p>
+
+                {/* ACTION */}
+                {item.cancelled ? (
+                  <span className="px-4 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-600">
+                    Cancelled
+                  </span>
+                ) : item.isCompleted ? (
+                  <span className="px-4 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-600">
+                    Completed
+                  </span>
+                ) : (
+                  <div className="flex gap-2">
+                    <button className="p-2 rounded-full bg-red-100 hover:bg-red-500 transition">
+                      <img
+                        onClick={() => cancelAppointment(item._id)}
+                        className="w-5"
+                        src={assets.cancel_icon}
+                        alt=""
+                      />
+                    </button>
+
+                    <button className="p-2 rounded-full bg-green-100 hover:bg-green-500 transition">
+                      <img
+                        onClick={() => completeAppointment(item._id)}
+                        className="w-5"
+                        src={assets.tick_icon}
+                        alt=""
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -3,48 +3,62 @@ import { assets } from "../assets/assets";
 
 const Footer = () => {
   return (
-    <div className="md:mx-10">
-      {/* ---------   Left  -------------- */}
-      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm">
-        <div>
-          <img className="mb-5 w-20" src={assets.kh1} alt="" />
-          <p className="w-full md:w-2/3 text-gray-600 leading-6">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam
-            dignissimos natus eum at consequuntur rem ullam amet sit temporibus,
-            ipsam sint, ipsa eveniet ipsum saepe deserunt fugiat facere
-            necessitatibus ea?
+    <footer className="bg-gradient-to-br from-gray-50 to-gray-100 border-t mt-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 text-sm">
+          {/* LEFT */}
+          <div>
+            <img className="mb-5 w-24" src={assets.kh1} alt="" />
+            <p className="text-gray-600 leading-6 max-w-md">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam
+              dignissimos natus eum at consequuntur rem ullam amet sit
+              temporibus, ipsam sint, ipsa eveniet ipsum saepe deserunt fugiat
+              facere necessitatibus ea?
+            </p>
+          </div>
+
+          {/* MIDDLE */}
+          <div>
+            <p className="text-lg font-semibold mb-4 text-gray-800">Company</p>
+            <ul className="flex flex-col gap-3 text-gray-600">
+              <li className="hover:text-primary cursor-pointer transition">
+                Home
+              </li>
+              <li className="hover:text-primary cursor-pointer transition">
+                About us
+              </li>
+              <li className="hover:text-primary cursor-pointer transition">
+                Contact us
+              </li>
+              <li className="hover:text-primary cursor-pointer transition">
+                Privacy policy
+              </li>
+            </ul>
+          </div>
+
+          {/* RIGHT */}
+          <div>
+            <p className="text-lg font-semibold mb-4 text-gray-800">
+              Get in Touch
+            </p>
+            <ul className="flex flex-col gap-3 text-gray-600">
+              <li className="hover:text-primary transition">+1-214-112-234</li>
+              <li className="hover:text-primary transition break-all">
+                kishorehospitals@gmail.com
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* DIVIDER */}
+        <div className="mt-10 border-t pt-6">
+          <p className="text-center text-gray-500 text-sm">
+            © 2026 KishoreHospitals. All Rights Reserved.
           </p>
         </div>
-        {/* ---------   Middle  -------------- */}
-        <div>
-          <p className="text-xl font-medium mb-5">COMPANY</p>
-          <ul className="flex flex-col gap-2 text-gray-600">
-            <li>Home</li>
-            <li>About us</li>
-            <li>Contact us</li>
-            <li>Privacy policy</li>
-          </ul>
-        </div>{" "}
-        {/* ---------   Right  -------------- */}
-        <div>
-          <p className="text-xl font-medium mb-5">GET IN TOUCH</p>
-          <ul className="flex flex-col gap-2 text-gray-600">
-            {" "}
-            <li>+1-214-112-234</li>
-            <li>kishorehospitals@gmail.com</li>
-          </ul>
-        </div>
       </div>
-      <div>
-        {/* -------- Copy Right Text ------- */}
-        <hr />
-
-        <p className="py-5 text-sm text-center">
-          {" "}
-          Copyright 2026@ KishoreHospitals - All Rights Reserved.
-        </p>
-      </div>
-    </div>
+    </footer>
   );
 };
 
